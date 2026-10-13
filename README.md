@@ -104,3 +104,65 @@ Participants are **STRICTLY NOT ALLOWED** to obtain prices from the internet, ex
 - Explore feature engineering techniques for text and image data
 - Consider ensemble methods combining different model types
 - Pay attention to outliers and data preprocessing
+# AmazonML Hackathon
+
+This repository is a Smart Product Pricing challenge workspace. The goal is to predict product prices from catalog text and image links using only the supplied training data. The expected submission is a CSV containing one positive price prediction for every `sample_id` in the test set.
+
+## Repository contents
+
+- [`AmazonML.ipynb`](./AmazonML.ipynb): exploratory/modeling notebook using text cleaning, quantity and weight extraction, TF-IDF features, sparse feature composition, and regression experiments.
+- [`sample_code.py`](./sample_code.py): baseline submission generator. It currently returns random prices and is not a competitive model.
+- [`src/utils.py`](./src/utils.py): helper functions for downloading image URLs. Use only when permitted by the challenge rules and with controlled request rates.
+- `dataset/train.csv`: labeled training data.
+- `dataset/test.csv`: unlabeled evaluation inputs.
+- `dataset/sample_test.csv` and `dataset/sample_test_out.csv`: format examples.
+- [`Documentation_template.md`](./Documentation_template.md): one-page methodology template for a challenge submission.
+- `test_out.csv`: generated output artifact; validate its source before submitting.
+
+## Problem contract
+
+Each record contains `sample_id`, `catalog_content`, and `image_link`; training records additionally contain `price`. The output must contain exactly two columns:
+
+```text
+sample_id,price
+```
+
+It must contain every test `sample_id` exactly once, with positive floating-point predictions. The challenge metric is SMAPE, where lower is better:
+
+```text
+SMAPE = mean(|prediction - actual| / ((|prediction| + |actual|) / 2)) * 100
+```
+
+## Important rules
+
+The challenge explicitly prohibits external price lookup, web scraping of prices, external pricing databases, and manual online price research. Do not use internet prices or unauthorized data augmentation. Keep model and pretrained-model licenses within the challenge's stated MIT/Apache 2.0 and parameter constraints.
+
+## Reproducing the baseline
+
+Install Python 3.10+ and the dependencies used by the notebook:
+
+```bash
+python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# macOS/Linux
+source .venv/bin/activate
+python -m pip install pandas numpy scikit-learn scipy lightgbm tqdm requests jupyter
+python sample_code.py
+```
+
+The notebook currently contains a machine-specific Windows dataset path; update it to a repository-relative path before running. Keep downloaded image data outside Git and respect challenge request limits.
+
+## Reproducibility and limitations
+
+- The notebook uses a random train/test split and should be changed to a documented validation strategy before comparing models.
+- Random seeds, package versions, feature parameters, and model parameters must be recorded.
+- `sample_code.py` uses random predictions and is only a format smoke test.
+- The image downloader uses a multiprocessing pool and can cause throttling if used carelessly.
+- Notebook checkpoints and `__pycache__` files are transient and should not be treated as source.
+
+See [`docs/development.md`](./docs/development.md), [`docs/data.md`](./docs/data.md), and [`SECURITY.md`](./SECURITY.md).
+
+## License
+
+Project-authored code and documentation are released under the MIT License. Dataset, challenge, image, and pretrained-model terms may differ; verify those terms independently. See [`LICENSE`](./LICENSE).
