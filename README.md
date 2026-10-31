@@ -167,4 +167,4 @@ See [`docs/development.md`](./docs/development.md), [`docs/data.md`](./docs/data
 
 Project-authored code and documentation are released under the MIT License. Dataset, challenge, image, and pretrained-model terms may differ; verify those terms independently. See [`LICENSE`](./LICENSE).
 
-Last updated: 2026-10-30 22:52 UTC
+Last updated: 2026-10-31 02:09 UTC
