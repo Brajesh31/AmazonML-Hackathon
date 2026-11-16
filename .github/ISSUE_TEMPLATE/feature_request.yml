@@ -1,0 +1,33 @@
+name: "💡 Feature request"
+description: "Suggest a reproducibility, modeling, or documentation improvement."
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Problem to solve"
+      description: "What limitation or workflow problem does this address?"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: "Proposed change"
+      description: "Describe the behavior you would like."
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: "How should it be validated?"
+      description: "For model changes, describe a training-only validation strategy and metric."
+    validations:
+      required: true
+  - type: checkboxes
+    id: integrity
+    attributes:
+      label: "Challenge integrity"
+      options:
+        - label: "This proposal does not rely on external price lookup, scraped prices, or prohibited data."
+          required: true
