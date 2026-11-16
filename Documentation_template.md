@@ -1,76 +1,123 @@
-# ML Challenge 2025: Smart Product Pricing Solution Template
+# 📝 Smart Product Pricing Challenge: Technical Solution Report
 
-**Team Name:** [Your Team Name]  
-**Team Members:** [List all team members]  
-**Submission Date:** [Date]
+> Complete this report only after running and validating your actual solution. Replace every placeholder. Do not invent metrics, model capabilities, data sources, or leaderboard results.
 
----
+## 👥 Team information
 
-## 1. Executive Summary
-*Provide a brief 2-3 sentence overview of your approach and key innovations.*
-
-
-
----
-
-## 2. Methodology Overview
-
-### 2.1 Problem Analysis
-*Describe how you interpreted the pricing challenge and key insights discovered during EDA.*
-
-**Key Observations:**
-
-### 2.2 Solution Strategy
-*Outline your high-level approach (e.g., multimodal learning, ensemble methods, etc.)*
-
-**Approach Type:** [Single Model / Ensemble / Hybrid, etc]  
-**Core Innovation:** [Brief description of your main technical contribution]
+- **Team name:** [Team name]
+- **Team members:** [Full names and roles]
+- **Submission date:** [YYYY-MM-DD]
+- **Code repository:** [Repository URL]
+- **Code revision:** [Git commit SHA]
+- **Experiment ID:** [ID from EXPERIMENTS.md]
 
 ---
 
-## 3. Model Architecture
+## 1. 🎯 Executive summary
 
-### 3.1 Architecture Overview
-*Describe your model architecture with a simple diagram or flowchart if possible.*
+Describe the problem, the approach actually implemented, the strongest verified validation result, and the main limitation. Keep this factual and concise.
 
+## 2. 🧩 Problem definition
 
-### 3.2 Model Components
+### 2.1 Task
+Explain the input fields, target variable, expected output schema, and evaluation metric.
 
-**Text Processing Pipeline:**
-- [ ] Preprocessing steps: []
-- [ ] Model type: []
-- [ ] Key parameters: []
+### 2.2 Challenge constraints
+- Confirm that external price lookup and price scraping were not used.
+- Describe permitted data modalities used.
+- Identify model licensing and parameter restrictions that apply.
+- List any assumptions or exclusions.
 
-**Image Processing Pipeline:**
-- [ ] Preprocessing steps: []
-- [ ] Model type: []
-- [ ] Key parameters: []
+## 3. 📊 Data understanding
 
+### 3.1 Data schema
+| Field | Meaning | Used by solution? |
+| --- | --- | --- |
+| `sample_id` | Sample identifier | [Yes/No, explain] |
+| `catalog_content` | Product catalog text | [Yes/No, explain] |
+| `image_link` | Image URL | [Yes/No, explain] |
+| `price` | Training target | [Training only] |
 
----
+### 3.2 Data quality and exploration
+Report actual row counts, missing values, duplicates, target distribution, text length patterns, and any train/validation overlap checks. Include the script or notebook cell used to calculate them.
 
+### 3.3 Data governance
+Describe provenance, permitted usage, storage, and any limitations in the source terms. Do not imply that challenge data or linked images are covered by this repository's MIT license.
 
-## 4. Model Performance
+## 4. 🧹 Preprocessing and feature engineering
 
-### 4.1 Validation Results
-- **SMAPE Score:** [your best validation SMAPE]
-- **Other Metrics:** [MAE, RMSE, R² if calculated]
+### 4.1 Text pipeline
+Document normalization, tokenization, vectorizer type, vocabulary limits, and how transformations are fitted on training folds.
 
+### 4.2 Structured features
+Explain quantity, mass, volume, and other extracted features. Describe ambiguous or failed parsing behavior.
 
-## 5. Conclusion
-*Summarize your approach, key achievements, and lessons learned in 2-3 sentences.*
+### 4.3 Image pipeline
+If images are not used, state that clearly. If used, document source permissions, preprocessing, missing-image strategy, model/license, and parameter count.
 
----
+## 5. 🧠 Model architecture
 
-## Appendix
+Describe the model actually trained, target transformation, loss/objective, hyperparameters, and inference procedure.
 
-### A. Code artefacts
-*Include drive link for your complete code directory*
+### 5.1 Architecture flow
+```mermaid
+flowchart TD
+    A[Challenge input] --> B[Preprocessing]
+    B --> C[Feature extraction]
+    C --> D[Model training]
+    D --> E[Validation]
+    E --> F[Final model]
+    F --> G[Test prediction]
+    G --> H[Submission validation]
+```
+Replace this conceptual diagram if the implemented pipeline differs.
 
+### 5.2 Model selection
+Explain candidate models, tuning method, stopping criteria, and why the final candidate was selected.
 
-### B. Additional Results
-*Include any additional charts, graphs, or detailed results*
+## 6. 🧪 Experimental methodology
 
----
+- **Validation strategy:** [Holdout / K-fold / Group split]
+- **Random seed:** [Seed]
+- **Train/validation sizes:** [Measured counts]
+- **Leakage controls:** [Describe]
+- **Environment:** [Python and package versions]
+- **Hardware:** [CPU/GPU/RAM]
 
-**Note:** This is a suggested template structure. Teams can modify and adapt the sections according to their specific solution approach while maintaining clarity and technical depth. Focus on highlighting the most important aspects of your solution.
+Include enough detail for another contributor to reproduce the split and training run.
+
+## 7. 📏 Results and error analysis
+
+### 7.1 Verified validation metrics
+| Model | Feature set | Validation split | SMAPE | Runtime | Notes |
+| --- | --- | --- | --- | --- | --- |
+| [Name] | [Features] | [Split ID] | [Measured result] | [Time] | [Notes] |
+
+Do not include training metrics in the validation column. If no completed validation result exists, state that no verified score is available.
+
+### 7.2 Error analysis
+Discuss residual patterns, price bands, product types, parsing failures, and examples selected without using external price lookup.
+
+## 8. 📤 Submission validation
+
+Document output filename, exact columns, row count, ID uniqueness and coverage, missing values, finite/positive prediction checks, and read-back validation.
+
+## 9. ⚠️ Limitations and risks
+
+List known weaknesses, unsupported use cases, data limitations, compute constraints, reproducibility gaps, and potential failure modes.
+
+## 10. 🔐 Fair-play and licensing declaration
+
+Confirm that no prohibited external price lookup, price scraping, or unauthorized labels were used. Identify third-party package/model licenses and any dataset/image terms that apply.
+
+## 11. 🚀 Conclusion and future work
+
+Summarize what was actually achieved. Separate completed work from proposed improvements.
+
+## Appendix A. 🔁 Reproduction instructions
+
+Provide clone/setup commands, dependency installation, notebook or script entry point, and the exact command to reproduce the reported result.
+
+## Appendix B. 📦 Artifacts
+
+List model files, configuration, experiment logs, output checksums, and any permitted supplementary material. Do not commit large generated artifacts or restricted data merely to satisfy this section.
