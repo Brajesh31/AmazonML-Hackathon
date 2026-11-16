@@ -244,7 +244,7 @@ External price lookup is explicitly prohibited. Do not scrape product prices, ca
 | [🗃️ Storage model](docs/database.md) | CSV schema, no DB service |
 | [🚀 Execution](docs/deployment.md) | Competition lifecycle |
 | [🧯 Troubleshooting](docs/troubleshooting.md) | Known issues |
-| [❓ FAQ](docs/faq.md) | Common questions |\n| [🧾 Experiment tracking](docs/experiment-tracking.md) | Experiment metadata |\n| [✅ Validation checklist](docs/validation-checklist.md) | Model and submission gates |
+| [❓ FAQ](docs/faq.md) | Common questions |\n| [🧪 Testing](docs/testing.md) | Testing strategy and release checks |\n| [⚡ Performance](docs/performance.md) | Memory and runtime guidance |\n| [⚠️ Limitations](docs/limitations.md) | Known gaps and risks |\n| [🧾 Experiment tracking](docs/experiment-tracking.md) | Experiment metadata |\n| [✅ Validation checklist](docs/validation-checklist.md) | Model and submission gates |
 
 ## 🧠 ML project reference cards\n\n- [📊 Dataset card](DATASET_CARD.md): schema, provenance, and data restrictions.\n- [🧠 Model card](MODEL_CARD.md): honest current model status and known limitations.\n- [🧪 Experiment register](EXPERIMENTS.md): verified run history, with no invented scores.\n\n## 🤝 Contributing and support
 
