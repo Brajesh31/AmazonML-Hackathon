@@ -1,48 +1,80 @@
-name: Update README Automation
+name: Documentation and Repository Integrity
 
 on:
-  workflow_dispatch:
   push:
-  schedule:
-    - cron: "0 * * * *"
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: repository-checks-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  update-readme:
+  integrity:
+    name: Validate docs, notebook, and Python syntax
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
+          python-version: "3.11"
 
-      - name: Update README timestamp
+      - name: Check required project files
         run: |
-          DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
-          TIMESTAMP_LINE="Last updated: $DATE"
+          python - <<'PY'
+          from pathlib import Path
+          required = [
+              "README.md", "LICENSE", "CONTRIBUTING.md",
+              "CODE_OF_CONDUCT.md", "SECURITY.md", "SUPPORT.md",
+              "CHANGELOG.md", "ROADMAP.md", "CITATION.cff",
+              "AmazonML.ipynb", "sample_code.py",
+              "docs/README.md", "docs/architecture.md",
+              "docs/installation.md", "docs/development.md",
+              "docs/methodology.md", "docs/features.md",
+              "docs/data.md", "docs/image-data.md",
+              "docs/evaluation.md", "docs/reproducibility.md",
+              "docs/submission.md", "docs/api.md",
+              "docs/database.md", "docs/deployment.md",
+              "docs/troubleshooting.md", "docs/faq.md",
+              ".github/PULL_REQUEST_TEMPLATE.md",
+          ]
+          missing = [item for item in required if not Path(item).is_file()]
+          if missing:
+              raise SystemExit("Missing required files:\n" + "\n".join(missing))
+          print(f"Validated {len(required)} required files.")
+          PY
 
-          if [ -f README.md ]; then
-            if grep -q "Last updated:" README.md; then
-              sed -i "s/Last updated:.*/$TIMESTAMP_LINE/" README.md
-            else
-              printf "\n%s\n" "$TIMESTAMP_LINE" >> README.md
-            fi
-          else
-            printf "# Repository\n\n%s\n" "$TIMESTAMP_LINE" > README.md
-          fi
+      - name: Validate notebook JSON
+        run: python -m json.tool AmazonML.ipynb > /dev/null
 
-          git config user.name "Brajesh31"
-          git config user.email "brajesh31.dev@gmail.com"
+      - name: Compile Python source
+        run: python -m compileall -q src sample_code.py
 
-          git add README.md
-
-          if git diff --cached --quiet; then
-            echo "No README changes detected."
-            exit 0
-          fi
-
-          git commit -m "chore: update README timestamp"
-          git push origin HEAD
+      - name: Check local Markdown links
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          files = [Path("README.md"), *Path("docs").glob("*.md")]
+          missing = []
+          for file in files:
+              text = file.read_text(encoding="utf-8")
+              for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text):
+                  target = target.split("#", 1)[0]
+                  if not target or "://" in target or target.startswith("mailto:"):
+                      continue
+                  resolved = (file.parent / target).resolve()
+                  if not resolved.exists():
+                      missing.append(f"{file}: {target}")
+          if missing:
+              raise SystemExit("Broken local Markdown links:\n" + "\n".join(missing))
+          print("All local Markdown links resolve.")
+          PY
