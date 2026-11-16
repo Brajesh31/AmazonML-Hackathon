@@ -1,6 +1,6 @@
 # Runtime and notebook dependencies referenced by the current repository.
 # These are compatibility ranges, not a fully tested lockfile.
-numpy>=1.24,<3
+numpy>=2.5.4,<3
 pandas>=2.0,<3
 scipy>=1.10,<2
 scikit-learn>=1.3,<2
