@@ -1,5 +1,16 @@
-# Reproducibility
+# 🔁 Reproducibility
 
-Record the Python version, package versions, operating system, random seeds, dataset checksums, feature parameters, model parameters, validation split, and SMAPE result for each experiment.
+Record code SHA, dataset checksums, row counts, Python and package versions, hardware, random seeds, validation split, feature parameters, model parameters, target transformation, metric implementation, score, runtime, and artifact checksums.
 
-Avoid absolute paths such as the one currently embedded in `AmazonML.ipynb`. Use `pathlib.Path` and a configurable repository root. Save model artifacts and downloaded images outside Git, and keep a small manifest of generated outputs so another contributor can reproduce a run without access to private state.
+```mermaid
+flowchart LR
+    A[Pin code] --> B[Pin data]
+    B --> C[Recreate environment]
+    C --> D[Freeze split]
+    D --> E[Run experiment]
+    E --> F[Record metrics]
+    F --> G[Archive artifacts]
+    G --> H[Repeat cleanly]
+```
+
+Current gaps include an absolute Windows path in the notebook, a stored LightGBM fit error, no pinned dependency lockfile, and old cell outputs that do not prove a current successful run. Use relative paths and a clean-kernel run.
