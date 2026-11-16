@@ -1,0 +1,42 @@
+name: "🐛 Bug report"
+description: "Report a reproducible issue in the notebook, utilities, or documentation."
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Please do not include private challenge data, credentials, or downloaded product assets."
+  - type: textarea
+    id: summary
+    attributes:
+      label: "What happened?"
+      description: "Describe the observed behavior and expected behavior."
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: "Python version"
+      placeholder: "e.g. 3.11.8"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: "Relevant package versions and operating system"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: "Steps to reproduce"
+      placeholder: "1. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: "Redacted error output"
+      description: "Remove tokens, personal information, and restricted data."
+    validations:
+      required: false
