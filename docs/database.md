@@ -1,12 +1,17 @@
-# Data model
+# 🗃️ Data storage model
 
-The challenge uses CSV files rather than a database. The core fields are:
+## 📌 No database service
+The project does not use a relational database, document database, or ORM. Challenge inputs and outputs are CSV files; experiments use pandas dataframes and sparse matrices.
 
-| Field | Meaning |
-| --- | --- |
-| `sample_id` | Unique sample identifier |
-| `catalog_content` | Product title, description, and item-pack quantity text |
-| `image_link` | Public product-image URL |
-| `price` | Training target; absent from test inputs |
+## 🧾 Logical records
+| Record | Key | Fields |
+| --- | --- | --- |
+| Training row | `sample_id` | `catalog_content`, `image_link`, `price` |
+| Test row | `sample_id` | `catalog_content`, `image_link` |
+| Submission row | `sample_id` | `price` |
 
-Keep train and test schemas aligned except for the target. Do not infer price from external data. Preserve the provided sample output as the formatting reference.
+## 🔐 Data integrity
+Keep raw inputs immutable. Preserve identifiers through transformations. Validate uniqueness and row alignment before exporting predictions. Do not put prohibited external data into derived datasets.
+
+## 🔮 Future consideration
+Experiment metadata storage may be useful later, but it is not part of the current repository.
