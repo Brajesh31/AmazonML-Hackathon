@@ -1,17 +1,25 @@
-# FAQ
+# ❓ Frequently asked questions
 
-## Is `sample_code.py` a real model?
+## Is this a production pricing API?
+No. It is a notebook-led machine-learning challenge workspace. No HTTP API or deployed inference service is implemented.
 
-No. It returns random prices between 5 and 500 and exists only to demonstrate the expected output shape.
+## Is `sample_code.py` a trained model?
+No. It generates random prices solely to demonstrate the expected output format.
 
-## What metric should I optimize?
+## Does the notebook train LightGBM successfully?
+The saved notebook output contains a TypeError for the supplied `early_stopping_rounds` argument. Resolve compatibility and rerun before relying on the result.
 
-The challenge uses SMAPE. Lower values are better; implement a stable local evaluator and document how zero or near-zero targets are handled.
+## Does this repository contain image-model code?
+No. It contains an image downloader helper, but no image feature extraction or image-model training.
 
-## Can I scrape prices from product pages?
+## Can external product prices be collected?
+No. The challenge brief explicitly prohibits external price lookup and scraping.
 
-No. External price lookup and price-related web scraping are explicitly prohibited by the challenge.
+## Is a database used?
+No. The project uses CSV datasets and in-memory pandas/SciPy processing.
 
-## Should notebook checkpoints be committed?
+## What is the evaluation metric?
+SMAPE. See [evaluation](evaluation.md).
 
-No. Checkpoints and `__pycache__` files are transient and are ignored by the repository policy. Keep reproducible source notebooks and scripts instead.
+## Where should generated artifacts go?
+Use a local output/cache directory. Keep downloaded images, model checkpoints, feature matrices, and temporary files out of Git.
