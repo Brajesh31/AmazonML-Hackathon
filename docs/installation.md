@@ -19,12 +19,12 @@ Activate on Windows CMD: `.venv\\Scripts\\activate.bat`
 
 Activate on macOS/Linux: `source .venv/bin/activate`
 
-## 📦 Install notebook dependencies
+## 📦 Install dependencies
 ```bash
 python -m pip install --upgrade pip
-python -m pip install pandas numpy scikit-learn scipy lightgbm tqdm requests jupyter
+python -m pip install -r requirements.txt
 ```
-These packages reflect imports in the current notebook and helper code. A pinned, verified dependency lockfile is not provided.
+The manifest defines supported version ranges, not an exact lockfile. Capture the installed package versions for each reported experiment. If a dependency changes its API, verify compatibility before updating the environment.
 
 ## ▶️ Launch
 ```bash
