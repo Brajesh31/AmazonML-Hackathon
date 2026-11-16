@@ -1,21 +1,31 @@
-# 🧑‍💻 Development
+# 🧑‍💻 Development workflow
 
-Keep raw data unchanged, use repository-relative paths, fix random seeds, extract shared feature functions into `src/`, and store large artifacts outside Git. Follow the no-external-price-lookup rule.
+## 🧭 Principles
+- Keep raw challenge data immutable.
+- Use repository-relative paths and fixed random seeds.
+- Put reusable, tested helpers in `src/`.
+- Keep notebooks focused on exploration and analysis.
+- Store image downloads, embeddings, caches, matrices, and model files outside Git.
+- Record split strategy, preprocessing, model parameters, and validation metrics.
+- Respect challenge restrictions, especially the ban on external price lookup.
 
+## 🔄 Change lifecycle
 ```mermaid
 flowchart TD
-    A[Plan change] --> B[Check challenge rules]
-    B --> C[Implement] --> D[Add validation]
+    A[Plan focused change] --> B[Review challenge rules]
+    B --> C[Implement code or docs]
+    C --> D[Add focused validation]
     D --> E[Run local checks]
-    E --> F[Update documentation]
-    F --> G[Review diff and artifacts]
+    E --> F[Update experiment notes]
+    F --> G[Review generated artifacts]
     G --> H[Commit]
 ```
 
-Basic syntax check:
-
+## 🧪 Basic syntax check
 ```bash
 python -m compileall -q src sample_code.py
 ```
+For notebook changes, validate notebook JSON and execute changed cells in a fresh kernel. Full model training is resource-intensive and is not part of documentation CI.
 
-For notebook updates, validate notebook JSON and execute changed cells in a clean kernel. Full model training is not part of docs CI. Do not add checkpoints, bytecode, caches, image downloads, or generated feature matrices to Git.
+## 📦 Artifact policy
+Do not commit notebook checkpoints, bytecode, caches, temporary image downloads, generated feature matrices, or private credentials.
