@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "📚 Project documentation"
+    url: https://github.com/Brajesh31/AmazonML-Hackathon/tree/main/docs
+    about: "Read the technical guides before opening an issue."
+  - name: "🛡️ Security reporting"
+    url: https://github.com/Brajesh31/AmazonML-Hackathon/blob/main/SECURITY.md
+    about: "Report sensitive security concerns privately, not in public issues."
