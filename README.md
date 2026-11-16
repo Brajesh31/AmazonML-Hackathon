@@ -3,7 +3,7 @@
 <p align="center"><strong>Machine Learning • NLP • Product Understanding • Regression</strong></p>
 
 <p align="center">
-  <a href="https://github.com/Brajesh31/AmazonML-Hackathon/actions/workflows/docs.yml"><img alt="Documentation checks" src="https://github.com/Brajesh31/AmazonML-Hackathon/actions/workflows/docs.yml/badge.svg"></a>
+  <a href="https://github.com/Brajesh31/AmazonML-Hackathon/actions/workflows/update-readme.yml"><img alt="Documentation checks" src="https://github.com/Brajesh31/AmazonML-Hackathon/actions/workflows/update-readme.yml/badge.svg"></a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white">
   <img alt="Jupyter" src="https://img.shields.io/badge/Workflow-Jupyter-F37626?logo=jupyter&logoColor=white">
   <img alt="License" src="https://img.shields.io/badge/Code%20License-MIT-green.svg">
@@ -142,10 +142,10 @@ Install the libraries referenced by the notebook:
 
 ```bash
 python -m pip install --upgrade pip
-python -m pip install pandas numpy scikit-learn scipy lightgbm tqdm requests jupyter
+python -m pip install -r requirements.txt
 ```
 
-A pinned dependency lockfile is not currently provided.
+The dependency ranges are documented in `requirements.txt`. They are not a fully pinned lockfile, so record installed versions for reproducible experiments.
 
 ## ▶️ Run the notebook
 
@@ -253,5 +253,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md
 ## 📄 License and data terms
 
 Project-authored code and documentation are licensed under MIT as described in [LICENSE](LICENSE). This does not relicense challenge datasets, external images, libraries, or pretrained models. Verify separate terms before use.
-
-Last updated: 2026-11-16 05:27 UTC
+\n
