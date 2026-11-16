@@ -2,7 +2,7 @@
 # These are compatibility ranges, not a fully tested lockfile.
 numpy>=1.24,<3
 pandas>=2.0,<3
-scipy>=1.10,<2
+scipy>=1.18.1,<2
 scikit-learn>=1.3,<2
 lightgbm>=4.0,<5
 tqdm>=4.66,<5
