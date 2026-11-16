@@ -1,3 +1,18 @@
-# Support
+# 🆘 Support
 
-Read [`README.md`](./README.md), [`docs/data.md`](./docs/data.md), and [`docs/troubleshooting.md`](./docs/troubleshooting.md) first. For help, include Python and package versions, the command or notebook cell, dataset split, and a redacted error. Do not share challenge credentials, private data, or downloaded assets.
+## 📚 Check the documentation first
+- [Project overview](README.md)
+- [Installation](docs/installation.md)
+- [Data documentation](docs/data.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Frequently asked questions](docs/faq.md)
+
+## 🐛 When reporting a problem
+Include:
+- Operating system and Python version.
+- Package versions, especially scikit-learn and LightGBM.
+- The command or notebook cell that failed.
+- A concise, redacted error message.
+- Whether the issue occurs on a clean kernel.
+
+Do not attach private credentials, restricted challenge data, or downloaded assets. Use GitHub Issues for reproducible bugs and feature proposals.
