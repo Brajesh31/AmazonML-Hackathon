@@ -1,11 +1,16 @@
-# Security and responsible data use
+# 🛡️ Security and responsible data use
 
-## Dataset and credentials
+## 🔐 Secrets and local data
+- Never commit API keys, access tokens, passwords, browser cookies, private URLs, or personal information.
+- Keep local environment files private. Use `.env.example` only for non-secret variable names and safe placeholders.
+- Treat notebooks, outputs, downloaded images, and logs as potentially sensitive.
+- Keep generated downloads and model artifacts outside the repository unless their inclusion is necessary and permitted.
 
-Treat challenge data, downloaded product images, notebooks, outputs, and logs as potentially sensitive. Do not commit credentials, private datasets, browser cookies, API keys, or personal information. Store temporary downloads outside the repository.
+## 🚦 Competition integrity
+The challenge prohibits external price lookup. Do not use this repository to scrape product prices, call pricing APIs, query external price databases, or evade authentication, throttling, CAPTCHAs, or access controls. Image access must comply with challenge rules and source terms.
 
-The challenge prohibits external price lookup and scraping. Do not use `src/utils.py` to retrieve prices or to evade access controls, throttling, CAPTCHAs, or terms of service. Use only permitted image inputs and controlled request rates.
+## 🐛 Reporting a vulnerability
+Report suspected credential exposure, unsafe data handling, or exploitable code privately through the repository owner's GitHub profile: [@Brajesh31](https://github.com/Brajesh31). Include a concise description, affected file, reproduction steps, and impact. Do not publish exploit details or attach secrets in a public issue.
 
-## Reporting
-
-Report accidental data exposure, credential leakage, or unsafe code privately to Brajesh Kumar (`@brajesh31`) with reproduction details and no confidential attachments.
+## 🧹 If a secret is committed
+Revoke or rotate it immediately. Removing it from the latest commit is not sufficient because Git history may retain it. Review logs and connected services for misuse.
