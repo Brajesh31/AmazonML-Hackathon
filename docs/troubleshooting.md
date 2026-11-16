@@ -1,17 +1,13 @@
-# Troubleshooting
+# 🧯 Troubleshooting
 
-## Notebook cannot find the dataset
+**Dataset path error:** notebook contains a developer-specific Windows path. Run Jupyter at the repo root and load files from `Path("dataset")`.
 
-The notebook contains a machine-specific absolute path. Replace it with a path based on the repository root, such as `Path("dataset") / "train.csv"`.
+**LightGBM TypeError:** saved output says `LGBMRegressor.fit() got an unexpected keyword argument 'early_stopping_rounds'`. Use the supported callback API for the installed version, or remove early stopping for a simple compatibility run. Re-execute the notebook.
 
-## LightGBM is unavailable
+**Import errors:** install packages into the active notebook kernel environment, then restart the kernel.
 
-Install the project dependencies in the active virtual environment and confirm the notebook kernel uses that environment. If LightGBM is not required for an experiment, remove or isolate the import rather than silently changing the model.
+**Memory pressure:** reduce TF-IDF feature count during debugging and avoid dense conversion without a memory estimate.
 
-## Output is rejected
+**Image download failures:** current helper runs 100 workers without retry/timeout controls. Reduce concurrency, cache results, and respect source throttling.
 
-Compare the output with `dataset/sample_test_out.csv`. Check exact column names, row count, ID coverage, duplicate IDs, missing values, finite values, and positive prices.
-
-## Image downloads are slow or fail
-
-Use only permitted URLs, reduce concurrency, add retries with backoff, cache results outside Git, and stop when the source requests throttling. The challenge forbids external price lookup.
+**Submission rejected:** verify columns, row count, unique test ID coverage, finite values, and positive prices.
