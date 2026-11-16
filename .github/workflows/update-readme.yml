@@ -35,16 +35,22 @@ jobs:
               "README.md", "LICENSE", "CONTRIBUTING.md",
               "CODE_OF_CONDUCT.md", "SECURITY.md", "SUPPORT.md",
               "CHANGELOG.md", "ROADMAP.md", "CITATION.cff",
+              "MODEL_CARD.md", "DATASET_CARD.md", "EXPERIMENTS.md",
+              "Documentation_template.md", "requirements.txt",
               "AmazonML.ipynb", "sample_code.py",
               "docs/README.md", "docs/architecture.md",
               "docs/installation.md", "docs/development.md",
               "docs/methodology.md", "docs/features.md",
               "docs/data.md", "docs/image-data.md",
               "docs/evaluation.md", "docs/reproducibility.md",
+              "docs/experiment-tracking.md", "docs/validation-checklist.md",
               "docs/submission.md", "docs/api.md",
               "docs/database.md", "docs/deployment.md",
               "docs/troubleshooting.md", "docs/faq.md",
               ".github/PULL_REQUEST_TEMPLATE.md",
+              ".github/ISSUE_TEMPLATE/bug_report.yml",
+              ".github/ISSUE_TEMPLATE/feature_request.yml",
+              ".github/dependabot.yml",
           ]
           missing = [item for item in required if not Path(item).is_file()]
           if missing:
@@ -66,8 +72,8 @@ jobs:
           files = [Path("README.md"), *Path("docs").glob("*.md")]
           missing = []
           for file in files:
-              text = file.read_text(encoding="utf-8")
-              for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text):
+              content = file.read_text(encoding="utf-8")
+              for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", content):
                   target = target.split("#", 1)[0]
                   if not target or "://" in target or target.startswith("mailto:"):
                       continue
