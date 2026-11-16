@@ -1,13 +1,19 @@
 # 🧯 Troubleshooting
 
-**Dataset path error:** notebook contains a developer-specific Windows path. Run Jupyter at the repo root and load files from `Path("dataset")`.
+## 📁 Dataset not found
+The notebook contains a developer-specific Windows absolute path. Run Jupyter from the repository root and load files with `Path("dataset") / "train.csv"` and `Path("dataset") / "test.csv"`.
 
-**LightGBM TypeError:** saved output says `LGBMRegressor.fit() got an unexpected keyword argument 'early_stopping_rounds'`. Use the supported callback API for the installed version, or remove early stopping for a simple compatibility run. Re-execute the notebook.
+## 🌲 LightGBM fit TypeError
+The saved notebook output records `LGBMRegressor.fit() got an unexpected keyword argument 'early_stopping_rounds'`. Check the installed LightGBM version and use its supported callback API, or disable early stopping for a minimal compatibility test. Re-run the cell and save fresh output.
 
-**Import errors:** install packages into the active notebook kernel environment, then restart the kernel.
+## 📦 Import errors
+Install packages into the same environment used by the Jupyter kernel, then restart the kernel.
 
-**Memory pressure:** reduce TF-IDF feature count during debugging and avoid dense conversion without a memory estimate.
+## 🧠 Memory pressure
+Sparse TF-IDF matrices can be large. Reduce feature count for debugging and avoid dense conversion without estimating memory use.
 
-**Image download failures:** current helper runs 100 workers without retry/timeout controls. Reduce concurrency, cache results, and respect source throttling.
+## 🖼️ Image download failures
+The current helper uses 100 workers and has no explicit timeout/retry controls. Reduce concurrency in a revised implementation, cache successful downloads, and respect source throttling.
 
-**Submission rejected:** verify columns, row count, unique test ID coverage, finite values, and positive prices.
+## 📤 Submission rejected
+Verify exact columns, row count, unique test ID coverage, finite numeric values, and strictly positive prices.
