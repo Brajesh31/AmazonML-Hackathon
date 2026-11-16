@@ -1,92 +1,86 @@
 # 🛍️ AmazonML Hackathon | Smart Product Pricing
 
-<p align="center">
-  <strong>Machine Learning • NLP • Product Understanding • Regression</strong>
-</p>
+<p align="center"><strong>Machine Learning • NLP • Product Understanding • Regression</strong></p>
 
 <p align="center">
   <a href="https://github.com/Brajesh31/AmazonML-Hackathon/actions/workflows/docs.yml"><img alt="Documentation checks" src="https://github.com/Brajesh31/AmazonML-Hackathon/actions/workflows/docs.yml/badge.svg"></a>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white">
-  <img alt="Notebook" src="https://img.shields.io/badge/Workflow-Jupyter-F37626?logo=jupyter&logoColor=white">
+  <img alt="Jupyter" src="https://img.shields.io/badge/Workflow-Jupyter-F37626?logo=jupyter&logoColor=white">
   <img alt="License" src="https://img.shields.io/badge/Code%20License-MIT-green.svg">
   <img alt="Status" src="https://img.shields.io/badge/Project-Research%20Workspace-blue">
 </p>
 
-> A research workspace for the Smart Product Pricing challenge. The objective is to estimate product prices from catalog text and product metadata, using only the challenge-provided training data and following the challenge's strict fair-play rules.
+> A notebook-led research workspace for the Smart Product Pricing challenge. Predict product prices from supplied catalog information while respecting the competition's strict fair-play rules.
 
-## 🧭 Table of contents
+## 🧭 Contents
 
-- [🎯 Challenge overview](#-challenge-overview)
-- [🧩 Problem contract](#-problem-contract)
-- [🧠 Current approach in the notebook](#-current-approach-in-the-notebook)
-- [🔄 End-to-end workflow](#-end-to-end-workflow)
+- [🎯 Challenge](#-challenge)
+- [🧩 Data contract](#-data-contract)
+- [🧠 Existing modeling approach](#-existing-modeling-approach)
+- [🔄 Workflow](#-workflow)
 - [📁 Repository structure](#-repository-structure)
-- [⚙️ Environment setup](#️-environment-setup)
-- [▶️ Working with the notebook](#️-working-with-the-notebook)
+- [⚙️ Setup](#️-setup)
+- [▶️ Run the notebook](#️-run-the-notebook)
 - [📤 Submission validation](#-submission-validation)
-- [📏 Evaluation metric](#-evaluation-metric)
-- [🚦 Challenge integrity](#-challenge-integrity)
+- [📏 Evaluation](#-evaluation)
+- [🚦 Integrity rules](#-integrity-rules)
 - [⚠️ Known limitations](#️-known-limitations)
 - [📚 Documentation](#-documentation)
-- [🤝 Contributing](#-contributing)
-- [📄 License and data terms](#-license-and-data-terms)
 
-## 🎯 Challenge overview
+## 🎯 Challenge
 
-The challenge asks participants to predict a product's price from its catalog description and related metadata. The supplied schema is:
+The objective is to estimate a product's price from the provided product catalog content and metadata. The challenge brief describes approximately 75,000 labeled training records and 75,000 unlabeled test records. Verify actual row counts before publishing statistics.
 
-| Field | Meaning | Availability |
-| --- | --- | --- |
-| `sample_id` | Unique row identifier | Train and test |
-| `catalog_content` | Product title, description, and item-pack information | Train and test |
-| `image_link` | Product image URL | Train and test |
-| `price` | Target price | Train only |
+## 🧩 Data contract
 
-The repository's README challenge brief describes roughly 75,000 labeled training rows and 75,000 unlabeled test rows. Confirm actual row counts from the files before reporting experiment statistics.
+| Field | Train | Test | Meaning |
+| --- | --- | --- | --- |
+| `sample_id` | ✓ | ✓ | Unique sample identifier |
+| `catalog_content` | ✓ | ✓ | Product title, description, item-pack information |
+| `image_link` | ✓ | ✓ | Product image URL |
+| `price` | ✓ | ✗ | Target price |
 
-## 🧩 Problem contract
-
-The submission must contain exactly two columns:
+Submission schema:
 
 ```csv
 sample_id,price
 ```
 
-Every test identifier must occur exactly once. Each prediction must be a finite, positive numeric value. The challenge brief specifies Symmetric Mean Absolute Percentage Error (SMAPE) as the evaluation metric.
+Every test ID must appear exactly once with a finite, positive numeric prediction.
 
-## 🧠 Current approach in the notebook
+## 🧠 Existing modeling approach
 
-`AmazonML.ipynb` contains an experimental tabular/text pipeline:
+The checked-in `AmazonML.ipynb` contains an experimental text/tabular workflow:
 
-- 🧹 Basic text normalization: lowercase conversion, punctuation removal, and whitespace normalization.
-- 📦 Quantity extraction: a regular-expression heuristic that extracts a numeric token.
-- ⚖️ Weight/volume extraction: a first-match parser for selected units (`kg`, `g`, `l`, `ml`, `oz`).
-- 🔤 Text representation: word-level TF-IDF with up to 5,000 features and unigrams/bigrams.
-- 🧮 Structured features: quantity and normalized weight/volume values.
-- 🌲 Regressor experiments: LightGBM is imported and instantiated; Ridge is imported but the checked-in notebook does not establish a completed Ridge experiment.
+- 🧹 Lowercase and normalize catalog text.
+- 📦 Extract a quantity feature using a numeric-token heuristic.
+- ⚖️ Parse the first recognized mass/volume token into a numeric feature.
+- 🔤 Build word-level TF-IDF features with up to 5,000 terms and unigram/bigram range.
+- 🧮 Combine sparse text features with quantity and weight/volume features.
+- 🌲 Attempt LightGBM regression using a log-transformed target.
 
-The notebook includes a log-target transformation with `log1p`. Its recorded execution contains a LightGBM `TypeError` for the `early_stopping_rounds` fit argument. Do not treat the notebook as a clean, fully reproducible run.
+Ridge is imported but the notebook does not establish a completed Ridge experiment. The saved notebook output contains a LightGBM `TypeError` for the supplied `early_stopping_rounds` argument. Do not treat the stored notebook as a clean, fully reproducible run.
 
-`sample_code.py` is only a format demonstration. It emits random values and is **not a trained prediction model**.
+**Important:** `sample_code.py` returns random prices. It is only an output-format demonstration, not a trained model.
 
 ## 🔄 End-to-end workflow
 
 ```mermaid
 flowchart TD
-    A[📦 Challenge CSV files] --> B[🔎 Inspect schema and IDs]
-    B --> C[🧹 Clean catalog text]
-    C --> D[📦 Parse quantity and units]
-    D --> E[🔤 Fit TF-IDF on training text]
+    A[📦 Supplied CSV files] --> B[🔎 Inspect schema and IDs]
+    B --> C[🧹 Normalize catalog text]
+    C --> D[📦 Extract quantity and units]
+    D --> E[🔤 Fit TF-IDF on train]
     E --> F[🧮 Combine text and numeric features]
-    F --> G[✂️ Split training data for validation]
-    G --> H[🌲 Train and tune a regressor]
+    F --> G[✂️ Split labeled data]
+    G --> H[🌲 Train candidate regressor]
     H --> I[📏 Evaluate validation SMAPE]
-    I --> J{Validation acceptable?}
+    I --> J{Reliable result?}
     J -- No --> C
-    J -- Yes --> K[🔁 Refit using approved training data]
+    J -- Yes --> K[🔁 Fit final model]
     K --> L[🔮 Predict test rows]
-    L --> M[✅ Validate IDs and positive finite prices]
-    M --> N[📤 Export test_out.csv]
+    L --> M[✅ Validate IDs and positive prices]
+    M --> N[📤 Export submission CSV]
 ```
 
 This is the intended experiment lifecycle, not a claim that every stage currently runs end to end without modification.
@@ -95,20 +89,20 @@ This is the intended experiment lifecycle, not a claim that every stage currentl
 
 ```text
 AmazonML-Hackathon/
-├── 📓 AmazonML.ipynb                 # Main exploratory/modeling notebook
-├── 🐍 sample_code.py                 # Random output-format demonstration
+├── 📓 AmazonML.ipynb
+├── 🐍 sample_code.py
 ├── 📂 src/
-│   └── utils.py                      # Optional image-download helpers
+│   └── utils.py
 ├── 📂 dataset/
-│   ├── train.csv                     # Labeled training data
-│   ├── test.csv                      # Unlabeled test data
-│   ├── sample_test.csv               # Small input-format example
-│   └── sample_test_out.csv           # Expected output schema example
-├── 📂 docs/                          # Technical documentation
+│   ├── train.csv
+│   ├── test.csv
+│   ├── sample_test.csv
+│   └── sample_test_out.csv
+├── 📂 docs/                    # Technical handbook
 ├── 📂 .github/
-│   ├── ISSUE_TEMPLATE/               # Issue forms
-│   └── workflows/                    # Repository checks
-├── 📄 Documentation_template.md      # Challenge methodology template
+│   ├── ISSUE_TEMPLATE/
+│   └── workflows/
+├── 📄 Documentation_template.md
 ├── 📄 CONTRIBUTING.md
 ├── 📄 CODE_OF_CONDUCT.md
 ├── 📄 SECURITY.md
@@ -119,56 +113,47 @@ AmazonML-Hackathon/
 └── 📄 LICENSE
 ```
 
-> Large CSVs and temporary artifacts are intentionally not expanded in this overview. Notebook checkpoints and bytecode in the historical tree are generated files, not project modules.
+Historical notebook checkpoints, bytecode, and generated outputs are not source modules.
 
-## ⚙️ Environment setup
+## ⚙️ Setup
 
-### Requirements
-
-- Python 3.10 or newer is the documented target for this guide.
-- Git and a local clone of this repository.
-- Sufficient disk space and memory for the supplied CSV files and sparse feature matrices.
-
-### Create an environment
+Requirements: Python 3.10+ recommended, Git, local challenge data, and enough memory/disk for feature matrices.
 
 ```bash
 git clone https://github.com/Brajesh31/AmazonML-Hackathon.git
 cd AmazonML-Hackathon
-
 python -m venv .venv
 ```
 
-Activate it:
+Activate:
 
 ```bash
 # Windows PowerShell
 .venv\Scripts\Activate.ps1
 
-# Windows Command Prompt
+# Windows CMD
 .venv\Scripts\activate.bat
 
 # macOS / Linux
 source .venv/bin/activate
 ```
 
-Install the notebook libraries:
+Install the libraries referenced by the notebook:
 
 ```bash
 python -m pip install --upgrade pip
 python -m pip install pandas numpy scikit-learn scipy lightgbm tqdm requests jupyter
 ```
 
-These commands reflect the libraries imported or described in the repository. A pinned, tested lockfile is not currently provided.
+A pinned dependency lockfile is not currently provided.
 
-## ▶️ Working with the notebook
-
-Launch Jupyter from the repository root:
+## ▶️ Run the notebook
 
 ```bash
 jupyter lab
 ```
 
-Open `AmazonML.ipynb`. Before running it, replace the machine-specific absolute path in its dataset-loading cell with repository-relative paths, for example:
+Open `AmazonML.ipynb` from the repository root. The notebook currently contains a developer-specific Windows path. Replace it before running:
 
 ```python
 from pathlib import Path
@@ -179,100 +164,92 @@ train_df = pd.read_csv(DATASET_DIR / "train.csv")
 test_df = pd.read_csv(DATASET_DIR / "test.csv")
 ```
 
-Do not claim reproducibility from old notebook outputs alone. Restart the kernel and execute the notebook in order after resolving dependency and path issues.
+Restart the kernel and execute cells in order after resolving the LightGBM compatibility issue described in [troubleshooting](docs/troubleshooting.md).
 
 ## 📤 Submission validation
 
-Before uploading a result, verify all of the following:
+Before upload:
 
-- [ ] The file is named as required by the challenge portal, usually `test_out.csv`.
 - [ ] Columns are exactly `sample_id` and `price`, in that order.
-- [ ] The number of output rows equals the number of test rows.
-- [ ] All test IDs are present exactly once.
-- [ ] No unexpected IDs, nulls, NaN, or infinite values exist.
-- [ ] Every price is strictly positive.
-- [ ] The file can be read back using pandas.
-- [ ] The one-page methodology description matches the actual code and model.
+- [ ] Output row count matches `dataset/test.csv`.
+- [ ] Every test ID appears exactly once.
+- [ ] No missing, unexpected, or duplicate IDs.
+- [ ] Prices are finite numeric values and strictly positive.
+- [ ] The CSV can be read back.
+- [ ] The methodology document matches the actual implementation.
 - [ ] No prohibited external price information was used.
 
-Example schema check:
+Example:
 
 ```python
-from pathlib import Path
 import numpy as np
 import pandas as pd
 
-test = pd.read_csv(Path("dataset") / "test.csv")
+test = pd.read_csv("dataset/test.csv")
 submission = pd.read_csv("test_out.csv")
-
 assert list(submission.columns) == ["sample_id", "price"]
 assert len(submission) == len(test)
 assert submission["sample_id"].is_unique
 assert set(submission["sample_id"]) == set(test["sample_id"])
-assert np.isfinite(submission["price"]).all()
-assert (submission["price"] > 0).all()
+prices = pd.to_numeric(submission["price"], errors="coerce")
+assert np.isfinite(prices).all() and (prices > 0).all()
 ```
 
-## 📏 Evaluation metric
+## 📏 Evaluation
 
-The challenge brief defines SMAPE as:
+The challenge uses Symmetric Mean Absolute Percentage Error:
 
 ```text
-SMAPE = mean( |prediction - actual| / ((|actual| + |prediction|) / 2) ) × 100
+SMAPE = mean(2 * abs(prediction - actual) /
+             (abs(actual) + abs(prediction))) * 100
 ```
 
-Lower is better. The metric can reach 200%. Define and document the zero-denominator behavior in any local evaluator. Use validation labels from the training set only. Do not use the hidden test set to tune model decisions.
+Lower is better. The stated range is 0% to 200%. The challenge brief does not define the local convention when both actual and predicted values are zero, so document the convention used by any local evaluator.
 
-## 🚦 Challenge integrity
+## 🚦 Integrity rules
 
-The challenge brief explicitly prohibits external price lookup. Do not:
-
-- Scrape product prices from retail sites.
-- Call pricing APIs or query external price databases.
-- Manually look up current prices for training or test products.
-- Add external labels or price-derived features.
-
-Image URLs are a separate input modality mentioned in the challenge brief. Only access images when permitted by the challenge rules and applicable source terms. Never use image downloading to obtain product prices or bypass access restrictions. Model and pretrained-model licensing and parameter limits must comply with the challenge specification.
+External price lookup is explicitly prohibited. Do not scrape product prices, call pricing APIs, query external price databases, or manually research prices online. Use only challenge-provided labels. Image URLs may only be accessed where permitted, and never to obtain prices or bypass access controls. Respect model license and parameter limits.
 
 ## ⚠️ Known limitations
 
-| Area | Current limitation | Practical consequence |
+| Area | Observed issue | Impact |
 | --- | --- | --- |
-| Data paths | Notebook contains a developer-specific Windows path | It fails on other machines until corrected |
-| LightGBM | Stored output shows unsupported `early_stopping_rounds` argument | Re-run with a compatible callback/API |
-| Feature parsing | Quantity regex takes the last integer; unit parser takes only first match | Pack-size and unit interpretation can be wrong |
-| Text cleaning | Removes non-ASCII characters and punctuation | May discard useful symbols or multilingual information |
-| Validation | Notebook uses a random split and stored outputs are not a clean run record | Validation methodology needs to be formalized |
-| Baseline script | Produces random prices | Not useful for meaningful model quality |
-| Image helper | Uses 100 workers without retries or throttling controls | High request pressure and unstable downloads |
-| Dependencies | No pinned environment specification | Results may vary across installations |
-| Tests | No automated model or submission tests are currently defined | Regressions can go unnoticed |
+| Notebook path | Machine-specific absolute Windows path | Not portable |
+| LightGBM | Stored output shows unsupported `early_stopping_rounds` fit argument | Notebook needs compatibility fix |
+| Quantity parser | Uses last integer-like token | May misread model numbers or dimensions |
+| Unit parser | Uses first matched unit; merges mass and volume | Ambiguous feature semantics |
+| Text cleanup | Removes non-ASCII characters | Can discard useful text |
+| Validation | Random split appears in notebook; no standardized run record | Comparisons need formalization |
+| Baseline | Random price generation | Not a meaningful model |
+| Image helper | 100 workers, no explicit retry/backoff | Throttling and incomplete downloads |
+| Dependencies | No pinned lockfile | Environment drift |
+| Tests | No model/submission test suite found | Regressions may go unnoticed |
 
 ## 📚 Documentation
 
-| Guide | What it covers |
+| Guide | Purpose |
 | --- | --- |
-| [📖 Documentation index](docs/README.md) | Complete guide map |
-| [🏗️ Architecture](docs/architecture.md) | Components and pipeline |
-| [🧪 Methodology](docs/methodology.md) | Modeling and validation protocol |
-| [📊 Data dictionary](docs/data.md) | Data fields, checks, leakage |
-| [🧰 Feature engineering](docs/features.md) | Text and numeric features |
+| [📖 Documentation index](docs/README.md) | Guide map |
+| [🏗️ Architecture](docs/architecture.md) | Components and data flow |
+| [🧪 Methodology](docs/methodology.md) | Modeling and experiment protocol |
+| [📊 Data](docs/data.md) | Data schema and governance |
+| [🧰 Features](docs/features.md) | Text, quantity, unit, and image features |
 | [📏 Evaluation](docs/evaluation.md) | SMAPE and validation |
 | [🔁 Reproducibility](docs/reproducibility.md) | Seeds, versions, artifacts |
-| [📤 Submission](docs/submission.md) | Export and schema checks |
-| [⚙️ Installation](docs/installation.md) | Local environment |
-| [🧑‍💻 Development](docs/development.md) | Engineering conventions |
-| [🌐 Image inputs](docs/image-data.md) | Image handling and fair use |
-| [🛡️ Security and integrity](SECURITY.md) | Secrets, data protection, rules |
-| [🧯 Troubleshooting](docs/troubleshooting.md) | Known failures |
+| [📤 Submission](docs/submission.md) | Output validation |
+| [⚙️ Installation](docs/installation.md) | Environment setup |
+| [🧑‍💻 Development](docs/development.md) | Contribution workflow |
+| [🖼️ Image data](docs/image-data.md) | Permitted image handling |
+| [🔌 Local interfaces](docs/api.md) | Python helpers |
+| [🗃️ Storage model](docs/database.md) | CSV schema, no DB service |
+| [🚀 Execution](docs/deployment.md) | Competition lifecycle |
+| [🧯 Troubleshooting](docs/troubleshooting.md) | Known issues |
 | [❓ FAQ](docs/faq.md) | Common questions |
 
-## 🤝 Contributing
+## 🤝 Contributing and support
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Contributions should improve correctness, reproducibility, performance, or documentation without violating the challenge rules.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), [SECURITY.md](SECURITY.md), and [SUPPORT.md](SUPPORT.md). Changes should improve correctness and reproducibility without violating challenge integrity.
 
 ## 📄 License and data terms
 
-Project-authored code and documentation are licensed under MIT as described in [LICENSE](LICENSE). This does not relicense challenge datasets, source images, third-party libraries, pretrained models, or other external assets. Confirm their separate terms before use.
-
-Last updated: 2026-11-16 05:21 UTC
+Project-authored code and documentation are licensed under MIT as described in [LICENSE](LICENSE). This does not relicense challenge datasets, external images, libraries, or pretrained models. Verify separate terms before use.
