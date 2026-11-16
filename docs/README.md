@@ -30,7 +30,7 @@ This handbook describes the actual repository and a disciplined research workflo
 | [🔌 Local interfaces](api.md) | Python helpers, no HTTP API |
 | [🗃️ Storage](database.md) | CSV model, no database |
 | [🚀 Execution](deployment.md) | Local run and portal upload |
-| [🧯 Troubleshooting](troubleshooting.md) | Known issues |
+| [🧪 Testing](testing.md) | Unit, data, notebook, and integration checks |\n| [⚡ Performance](performance.md) | Memory and runtime guidance |\n| [⚠️ Limitations](limitations.md) | Known gaps and risks |\n| [🧯 Troubleshooting](troubleshooting.md) | Known issues |
 | [❓ FAQ](faq.md) | Common questions |
 
 ## 📄 Project-level reference documents
